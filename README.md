@@ -38,7 +38,7 @@ include 'src/Autload.php'
 
 use MinusFour\Router\Action;
 use MinusFour\Router\Route;
-use MinusFour\Router\RouteContainer;
+use MinusFour\Router\TreeRouteContainer;
 use MinusFour\Router\Router;
 ```
 
@@ -75,13 +75,17 @@ $route->dispatch($_SERVER['REQUEST_METHOD'], strtok($_SERVER['REQUEST_URI'], '?'
 
 It is possible to use regular expressions in some parts of the route. For example:
 
-`$route = new Route('regex_route_example', '/section:(home|news)');`
+```php
+$route = new Route('regex_route_example', '/section:(home|news)');
+```
 
 It will match /home or /news.
 
 It's possible to mix in static elements as well.
 
-`$route = new Route('regex_route_example_2', '/section/name:(home|news)');`
+```php
+$route = new Route('regex_route_example_2', '/section/name:(home|news)');
+```
 
 Will match /section/home o /section/news.
 
@@ -96,9 +100,11 @@ not the path itself.
 
 You shouldn't use a slash in your expressions.
 
-`$route = new Route('regex_route_bad_example', '/section:(home/news|home/forums)');`
+```php
+$route = new Route('regex_route_bad_example', '/section:(home/news|home/forums)');
+```
 
-Will not work. It will create static childrens for news|home and forums and the first element will be tested for (home.
+Will not work. It will create static childrens for news|home, forums) and the first element will be tested for (home.
 
 #### Multiple matches restriction
 
@@ -111,8 +117,8 @@ $route2 = new Route('regex_common_route_2', '/route2:\d+'); //Matches numbers.
 ```
 
 And the path to be matched is: /123456. Only the first one will be matched, it will not even attempt to try out
-the second expression as there's already one that fits plus there's no way the Router could now the other one
-is the valid one, even though is a more restrictive expression.
+the second expression as there's already one that fits plus there's no way the Router could know the other one
+is the valid one, even though it's a more restrictive expression.
 
 ## HOWEVER
 
@@ -136,5 +142,5 @@ It will behave like this:
 When the router fails to match a Route, it will throw a `RouteNotFoundException`. If it fails to find an action for
 the specified method, it will throw a `MethodNotFoundException`. Both can be caught under a `NotFoundException`.
 
-`RouteNotFoundException` and `MethodNotFoundException` both live under `/MinusFour/Router` while `NotFoundException`
+`RouteNotFoundException` and `MethodNotFoundException` live under `MinusFour/Router` while `NotFoundException`
 is under `MinusFour\Utils`.
