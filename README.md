@@ -34,7 +34,7 @@ which at the moment is unfinished.
 
 Start by including the autoloader and setting up the classes:
 ```php
-include 'src/Autload.php'
+include 'Autoload.php'
 
 use MinusFour\Router\Action;
 use MinusFour\Router\Route;
