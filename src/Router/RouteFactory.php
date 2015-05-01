@@ -27,8 +27,12 @@ class RouteFactory {
 	}
 
 	public function createRoute($routeName, $routePath){
-		$fullPath = $basePath . $routePath;
+		$fullPath = $this->basePath . $routePath;
 		return new Route($routeName, $fullPath);
+	}
+
+	public function getCurrentPath(){
+		return $this->basePath;
 	}
 
 	public function setPath($basePath){

@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 *******************************************************************************/
 namespace MinusFour\Router\RouteLoader;
 
-use MinusFour\Router\Route;
+use MinusFour\Router\RouteFactory;
 use MinusFour\Router\Action;
 use MinusFour\Utils\JsonFileParser;
 use MinusFour\Router\RouteContainerInterface;
@@ -28,12 +28,12 @@ use MinusFour\Router\RouteLoader\RouteLoaderInterface;
 class JsonRouteLoader implements RouteLoaderInterface {
 	private $filenames;
 	private $baseDir;
-	private $baseRoute;
+	private $routeFactory;
 
-	public function __construct(array $filenames, $baseDir, $baseRoute = ''){
+	public function __construct(array $filenames, $baseDir, RouteFactory $routeFactory = null){
 		$this->filenames = $filenames;
-		$this->baseDir = $baseDir;
-		$this->baseRoute = $baseRoute;
+		$this->baseDir = $baseDir;	
+		$this->routeFactory = $routeFactory == null ? new RouteFactory() : $routeFactory;
 	}
 
 	public function loadRoutes(RouteContainerInterface $routeContainer){
@@ -50,15 +50,21 @@ class JsonRouteLoader implements RouteLoaderInterface {
 					//Debugging purposes:
 					//echo "Attempting to load $newFile" . PHP_EOL;
 					$fullpath = realpath($this->baseDir . $newFile);
-					$routeLoader = new JsonRouteLoader([$newFile], dirname($fullpath), $path);
+					//Current Route Path
+					$routePath = $this->routeFactory->getCurrentPath();
+					//Move to new base point
+					$this->routeFactory->addToPath($path);
+					$routeLoader = new JsonRouteLoader([$newFile], dirname($fullpath), $this->routeFactory);
 					$routeLoader->loadRoutes($routeContainer);
+					//Reset route path
+					$this->routeFactory->setPath($routePath);
 				} else {
 					//Debugging purposes:
 					//echo "Route: $this->baseRoute" . $path . PHP_EOL;
 					//Possibly Normal Route?
 					if(isset($route['actions'])){
 						//Valid route
-						$routeObj = new Route($routeName, $this->baseRoute . $path);
+						$routeObj = $this->routeFactory->createRoute($routeName, $path);
 						$actions = $route['actions'];
 						foreach($actions as $method => $action){
 							if(!isset($action['fixedArgs'])){
