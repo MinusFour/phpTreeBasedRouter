@@ -87,7 +87,7 @@ It's possible to mix in static elements as well.
 $route = new Route('regex_route_example_2', '/section/name:(home|news)');
 ```
 
-Will match /section/home o /section/news.
+Will match /section/home and /section/news.
 
 # Warnings about path elements using regular expressions
 
@@ -142,5 +142,5 @@ It will behave like this:
 When the router fails to match a Route, it will throw a `RouteNotFoundException`. If it fails to find an action for
 the specified method, it will throw a `MethodNotFoundException`. Both can be caught under a `NotFoundException`.
 
-`RouteNotFoundException` and `MethodNotFoundException` live under `MinusFour/Router` while `NotFoundException`
+`RouteNotFoundException` and `MethodNotFoundException` live under `MinusFour\Router` while `NotFoundException`
 is under `MinusFour\Utils`.
