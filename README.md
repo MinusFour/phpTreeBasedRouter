@@ -1,5 +1,5 @@
 # phpTreeBasedRouter
-The main objective for this Router is to organize the possible routes in a hierarchical way 
+The main objective for this Router is to organize the possible routes in a hierarchical way
 although you are free to implement a different organization/data structure such as arrays with one or multiple
 dimensions.
 
@@ -9,7 +9,7 @@ Here are some objects that will help you initialize your router:
 ##### Route
 `use MinusFour\Router\Route;`
 
-This object will hold the route, the name of the route and the actions per each method (which can be HTTP Methods, 
+This object will hold the route, the name of the route and the actions per each method (which can be HTTP Methods,
 but there's really no restriction for that).
 
 ##### Action
@@ -108,7 +108,7 @@ Will not work. It will create static childrens for news|home, forums) and the fi
 
 #### Multiple matches restriction
 
-If you have expressions that match the same thing only one of them will be matched. 
+If you have expressions that match the same thing only one of them will be matched.
 Let say for an instance that you have routes like this:
 
 ```php
@@ -135,6 +135,64 @@ It will behave like this:
 ```
 /123456/static -> regex_common_route_2
 /123456 -> regex_common_route
+```
+
+# Route Loading
+
+I have included an Implementation of a possible Json Route Loader. It basically reads a file with a Json object, parses it,
+builds their respective route objects and finally loads them into the Router. JSON example:
+
+```js
+{
+	"home_route" : {
+		"path" : "/",
+		"actions" : {
+			"GET" : {
+				"class" : "MyClass",
+				"method" : "MyMethod"
+			}
+		}
+	}
+}
+```
+
+
+```php
+$routeContainer = new TreeRouteContainer();
+$routeLoader = new JsonRouteLoader(['routes.json'], __DIR__);
+$routeLoader->loadRoutes($routeContainer);
+//$routeContainer now holds all the routes on routes.json
+```
+
+It's also possible to load multiple files:
+```php
+$routeLoader = new JsonRouteLoader(['routes.json', 'routes2.json'], __DIR__);
+```
+
+You can also delegate routes to other files under a common path:
+```js
+{
+	"delegate" : {
+		"path" : "/delegate",
+		"include" : "/include.json"
+	}
+}
+```
+
+Will add all routes in include.json under /delegate. Please avoid delegating root paths.
+
+# Url Building
+
+This barely builds a path. It will fetch the route object and the path associated. It's up to you to build the full url:
+
+```php
+//After the Router object has been instantiated with its respective TreeRouteContainer:
+$router->buildUrl('name_of_route', array('parameterName' => 'parameterValue));
+// Parameter names must match the name of the elements given on the path. I.e. /name:(alex|john)/section:(home|news)
+// name and section are both parameter names. Therefore, the supplied array can be:
+// array('name' => 'alex', 'section' => 'home');
+// Which will return:
+// /alex/home
 ```
 
 # About 404 Error Codes
