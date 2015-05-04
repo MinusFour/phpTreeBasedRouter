@@ -25,6 +25,7 @@ use MinusFour\Utils\Tree\NodeNotFoundException;
 class TreeRouteContainer implements RouteContainerInterface {
 
 	private $dataStructure;
+	private $routeNameHolder;
 
 	public function __construct(TreeInterface $tree = null) {
 		if($tree == null){
@@ -35,7 +36,17 @@ class TreeRouteContainer implements RouteContainerInterface {
 	}
 
 	public function addRoute(RouteInterface $route){
+		$routeName = $route->getName();
+		$this->routeNameHolder[$routeName] = &$route;
 		$this->dataStructure->addNode($route->getPath(), $route);
+	}
+
+	public function getRouteByName($name){
+		if(isset($this->routeNameHolder[$name])){
+			return $this->routeNameHolder[$name];
+		} else {
+			throw new RouteNotFoundException("Route by name '$name' was not found.");
+		}
 	}
 
 	public function matchRouteMethod($method, $path){

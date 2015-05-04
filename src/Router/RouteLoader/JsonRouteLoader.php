@@ -32,7 +32,7 @@ class JsonRouteLoader implements RouteLoaderInterface {
 
 	public function __construct(array $filenames, $baseDir, RouteFactory $routeFactory = null){
 		$this->filenames = $filenames;
-		$this->baseDir = $baseDir;	
+		$this->baseDir = $baseDir;
 		$this->routeFactory = $routeFactory == null ? new RouteFactory() : $routeFactory;
 	}
 
@@ -76,11 +76,11 @@ class JsonRouteLoader implements RouteLoaderInterface {
 						}
 						$routeContainer->addRoute($routeObj);
 					} else {
-						//throw new NoActionException
+						//throw new NoActionsInJsonException
 					}
 				}
 			}
-		}		
-	}	
+		}
+	}
 }
 ?>

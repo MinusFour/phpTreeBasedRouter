@@ -26,8 +26,16 @@ abstract class RouterAbstract implements RouterInterface {
 		$this->routeContainer = $routeContainer;
 	}
 
-	public function buildUrl($routeName, $params = null){
-		//TODO
+	public function buildUrl($routeName, $params = array()){
+		$route = $this->routeContainer->getRouteByName($routeName);
+		//Get the path:
+		$routePath = $route->getPath();
+		//Building the url
+		foreach($params as $paramName => $paramValue){
+			$paramExpression = "/$paramName:[^\/]+/";
+			$routePath = preg_replace($paramExpression, $paramValue, $routePath);
+		}
+		return $routePath;
 	}
 	
 }

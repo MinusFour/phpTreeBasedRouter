@@ -24,5 +24,7 @@ interface RouteContainerInterface {
 	public function addRoute(RouteInterface $route);
 
 	public function matchRouteMethod($method, $path);
+
+	public function getRouteByName($name);
 }
 ?>
