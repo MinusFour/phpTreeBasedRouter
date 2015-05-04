@@ -158,6 +158,9 @@ builds their respective route objects and finally loads them into the Router. JS
 
 
 ```php
+use MinusFour\Router\RouteLoader\JsonRouteLoader;
+//No need for Route or Action anymore so you can delete use directives.
+
 $routeContainer = new TreeRouteContainer();
 $routeLoader = new JsonRouteLoader(['routes.json'], __DIR__);
 $routeLoader->loadRoutes($routeContainer);
@@ -187,7 +190,7 @@ This barely builds a path. It will fetch the route object and the path associate
 
 ```php
 //After the Router object has been instantiated with its respective TreeRouteContainer:
-$router->buildUrl('name_of_route', array('parameterName' => 'parameterValue));
+$router->buildUrl('name_of_route', array('parameterName' => 'parameterValue'));
 // Parameter names must match the name of the elements given on the path. I.e. /name:(alex|john)/section:(home|news)
 // name and section are both parameter names. Therefore, the supplied array can be:
 // array('name' => 'alex', 'section' => 'home');
