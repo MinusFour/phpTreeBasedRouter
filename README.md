@@ -27,8 +27,7 @@ object.
 `use MinusFour\Router\Router;`
 
 Once you are finished done loading objects into the RouteContainer, the Router will pick up the route object and call
-the action according to the supplied method. This object is also responsible for building a path for a given route,
-which at the moment is unfinished.
+the action according to the supplied method. This object is also responsible for building a path for a given route.
 
 # How to use
 
@@ -60,7 +59,7 @@ $routeContainer->addRoute($route);
 //Loads the route object into the tree.
 ```
 
-Finall you'll initialize the Router Object with `$routeContainer` and at that point is up to you to supply a path
+Finally you'll initialize the Router Object with `$routeContainer` and at that point is up to you to supply a path
 to match a Route object.
 
 ```php
@@ -70,6 +69,8 @@ $route->dispatch($_SERVER['REQUEST_METHOD'], strtok($_SERVER['REQUEST_URI'], '?'
 //I.e. GET /home?section=1
 //Will use GET as the Method and /home for path.
 ```
+
+There's a .htaccess (for apache users) in the root of the project that can help you out rewriting urls to your router.
 
 # Regular Expresions in Routes
 
