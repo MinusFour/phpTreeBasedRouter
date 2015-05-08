@@ -28,7 +28,8 @@ class Router extends RouterAbstract {
 		$pmerge = $fixedArgs + $result['parameters'];
 		$callable = array($action->getClass(), $action->getMethod());
 		if(is_callable($callable)){
-			call_user_func_array($callable, $pmerge);
+			/* No reason to not return the function call? */
+			return call_user_func_array($callable, $pmerge);
 		} else {
 			throw new \BadMethodCallException;
 		}
