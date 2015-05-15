@@ -37,7 +37,7 @@ class RouteFactory {
 
 	public function setPath($basePath){
 		$this->basePath = $basePath;
-	}	
+	}
 
 	public function addToPath($extraPath){
 		$this->basePath .= $extraPath;

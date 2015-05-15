@@ -27,7 +27,8 @@ class Tree implements TreeInterface {
 
 	public function __construct(FactoryNodeInterface $factory = null){
 		if($factory == null){
-			$factory = new FactoryNode();
+			$this->nFactory = new FactoryNode();
+		} else {
 			$this->nFactory = $factory;
 		}
 		$this->root = $this->nFactory->createBlank();

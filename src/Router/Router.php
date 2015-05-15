@@ -35,5 +35,4 @@ class Router extends RouterAbstract {
 		}
 	}
 }
-
 ?>
