@@ -32,7 +32,7 @@ class TreeRouteContainer implements RouteContainerInterface {
 		if($tree == null){
 			$this->dataStructure = new Tree();
 		} else {
-			$this->dataStrcuture = $tree;
+			$this->dataStructure = $tree;
 		}
 	}
 
