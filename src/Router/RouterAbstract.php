@@ -37,6 +37,5 @@ abstract class RouterAbstract implements RouterInterface {
 		}
 		return $routePath;
 	}
-	
 }
 ?>

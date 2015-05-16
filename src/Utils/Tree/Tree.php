@@ -39,7 +39,7 @@ class Tree implements TreeInterface {
 			$this->root->setObject($obj);
 			return;
 		}
-		$path = new PathHelper($path);	
+		$path = new PathHelper($path);
 		$cursor = $this->root;
 		while($path->canPop()){
 			$child = $path->popFirstPath();
@@ -62,12 +62,12 @@ class Tree implements TreeInterface {
 				}
 				$cursor = $tmpNode;
 			}
-		}	
+		}
 		$cursor->setObject($obj);
 	}
 
 	public function traverse($path){
-		$cpath = new PathHelper($path);	
+		$cpath = new PathHelper($path);
 		$result = $this->nodeTraverse($this->root, $cpath, $cpath->popFirstPath(), array());
 		if($result == null) {
 			throw new NodeNotFoundException("Node in '$path' not found");
@@ -107,11 +107,6 @@ class Tree implements TreeInterface {
 			return null;
 		}
 	}
-
-	/* To be deleted
-	 * public function printTree(){
-		$this->root->printNode();
-	} */
 
 	private function isParameter($node){
 		return strpos($node, ':') !== false;
