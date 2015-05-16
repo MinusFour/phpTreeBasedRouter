@@ -1,0 +1,15 @@
+{
+    "name": "minusfour/phptreebasedrouter",
+    "description": "PHP Router that resolves routes in a hierarchical way.",
+    "license": "GPL-2.0",
+    "authors": [
+        {
+            "name": "Alejandro Quiroga",
+            "email": "alex@minusfour.net"
+        }
+    ],
+    "require": 
+		{
+			"php": ">=5.3"
+		}
+}
