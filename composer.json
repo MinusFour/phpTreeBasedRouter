@@ -8,8 +8,12 @@
             "email": "alex@minusfour.net"
         }
     ],
-    "require": 
-		{
-			"php": ">=5.3"
+    "require": {
+		"php": ">=5.3"
+	},
+	"autload": {
+		"psr-4" : {
+			"MinusFour\\": "src/"
 		}
+	}
 }
