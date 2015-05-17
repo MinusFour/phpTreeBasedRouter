@@ -3,6 +3,40 @@ The main objective for this Router is to organize the possible routes in a hiera
 although you are free to implement a different organization/data structure such as arrays with one or multiple
 dimensions.
 
+# Installing
+The router can be installed through composer although at the moment it's not available through packagist. So you'll
+have to specify the repository in the composer.json.
+
+```json
+{
+    "repositories" : [
+        {
+            "type" : "vcs",
+            "url" : "https://github.com/minusfour/phptreebasedrouter"
+        }
+    ],
+    "require" : 
+        {
+            "minusfour/phptreebasedrouter" : "dev-master"
+        }
+}
+```
+
+After that you'll have to install the dependencies:
+
+```bash
+composer install
+```
+
+If no composer is available you can are free to download the sources from github through your preferred way. If you
+are using composer please remember to include composer autoloader.
+
+```php
+require 'vendor/autoload.php'
+```
+
+Otherwise, you are free to use the autoloder file included in the root of this project or to implement your own autoloader.
+
 # Brief summary of Objects/Classes
 Here are some objects that will help you initialize your router:
 
@@ -31,7 +65,7 @@ the action according to the supplied method. This object is also responsible for
 
 # How to use
 
-Start by including the autoloader and setting up the classes:
+Start by including the autoloader (no need to do so if you are using composer) and setting up the classes.
 ```php
 include 'Autoload.php'
 
