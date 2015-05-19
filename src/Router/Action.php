@@ -44,7 +44,7 @@ class Action implements ActionInterface {
 		$class = $this->class;
 		$callable = array(new $class(), $this->method);
 		if(is_callable($callable)){
-			return call_user_func_array(array($objInst, $this->method), $parameters);
+			return call_user_func_array($callable, $parameters);
 		} else {
 			return new \BadMethodCallException();
 		}

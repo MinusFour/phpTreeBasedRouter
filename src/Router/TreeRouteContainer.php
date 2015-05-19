@@ -54,10 +54,14 @@ class TreeRouteContainer implements RouteContainerInterface {
 		try {
 			$result = $this->dataStructure->traverse($path);
 			if($result['cursor']->getObject() == null){
-				throw new RouteNotFoundException("Route '$path' was not found.");
+				$routeNotFound = true;
 			}
 		} catch (NodeNotFoundException $e){
-			throw new RouteNotFoundException("Route '$path' was not found.");
+			$routeNotFound = true;
+		} finally {
+			if(isset($routeNotFound)){
+				throw new RouteNotFoundException("Route '$path' was not found.");
+			}
 		}
 		$arr['route'] = $result['cursor']->getObject();
 		$arr['parameters'] = $result['parameters'];
