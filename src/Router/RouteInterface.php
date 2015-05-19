@@ -25,7 +25,7 @@ interface RouteInterface {
 
 	public function getPath();
 
-	public function setMethodAction($method, Action $action);
+	public function setMethodAction($method, ActionInterface $action);
 
 	public function getMethodAction($method);
 }

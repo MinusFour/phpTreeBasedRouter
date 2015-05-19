@@ -50,7 +50,7 @@ class TreeRouteContainer implements RouteContainerInterface {
 		}
 	}
 
-	public function matchRouteMethod($method, $path){
+	public function matchRoute($path){
 		try {
 			$result = $this->dataStructure->traverse($path);
 			if($result['cursor']->getObject() == null){
@@ -59,7 +59,7 @@ class TreeRouteContainer implements RouteContainerInterface {
 		} catch (NodeNotFoundException $e){
 			throw new RouteNotFoundException("Route '$path' was not found.");
 		}
-		$arr['action'] = $result['cursor']->getObject()->getMethodAction($method);
+		$arr['route'] = $result['cursor']->getObject();
 		$arr['parameters'] = $result['parameters'];
 		return $arr;
 	}

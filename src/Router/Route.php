@@ -39,7 +39,7 @@ class Route implements RouteInterface {
 		return $this->path;
 	}
 
-	public function setMethodAction($method, Action $action){
+	public function setMethodAction($method, ActionInterface $action){
 		$this->actions[$method] = $action;
 		return $this;
 	}

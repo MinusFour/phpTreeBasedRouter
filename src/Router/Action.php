@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 *******************************************************************************/
 namespace MinusFour\Router;
 
-class Action {
+class Action implements ActionInterface {
 
 	private $class;
 	private $method;
@@ -39,9 +39,15 @@ class Action {
 		return $this->method;
 	}
 
-	public function getFixedArgs(){
-		return $this->fixedArgs;
+	public function execute(array $parameters){
+		$parameters = $this->fixedArgs + $parameters;
+		$class = $this->class;
+		$callable = array(new $class(), $this->method);
+		if(is_callable($callable)){
+			return call_user_func_array(array($objInst, $this->method), $parameters);
+		} else {
+			return new \BadMethodCallException();
+		}
 	}
-
 }
 ?>

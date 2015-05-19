@@ -22,17 +22,9 @@ namespace MinusFour\Router;
 class Router extends RouterAbstract {
 
 	public function dispatch($method, $path){
-		$result = $this->routeContainer->matchRouteMethod($method, $path);
-		$action = $result['action'];
-		$fixedArgs = $action->getFixedArgs();
-		$pmerge = $fixedArgs + $result['parameters'];
-		$callable = array($action->getClass(), $action->getMethod());
-		if(is_callable($callable)){
-			/* No reason to not return the function call? */
-			return call_user_func_array($callable, $pmerge);
-		} else {
-			throw new \BadMethodCallException;
-		}
+		$result = $this->routeContainer->matchRoute($path);
+		$action = $result['route']->getMethodAction($method);
+		return $action->execute($result['parameters']);
 	}
 }
 ?>
