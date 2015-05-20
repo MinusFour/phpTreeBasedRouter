@@ -19,31 +19,18 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 *******************************************************************************/
 namespace MinusFour\Router;
 
-class Action implements ActionInterface {
+use MinusFour\DIContainer\ContainerInterface;
 
-	protected $class;
-	protected $method;
-	private $fixedArgs;
+class ActionDI extends Action {
+	private $container;
 
-	public function __construct($class, $method, $fixedArgs = array()){
-		$this->class = $class;
-		$this->method = $method;
-		$this->fixedArgs = $fixedArgs;
+	public function __construct(ContainerInterface $container, $class, $method, array $fixedArgs = array()){
+		$this->container = $container;
+		parent::__construct($class, $method, $fixedArgs);
 	}
 
 	protected function getCallable(){
-		$class = $this->class;
-		return array(new $class(), $this->method);
-	}
-
-	public function execute(array $parameters){
-		$parameters = $this->fixedArgs + $parameters;
-		$callable = $this->getCallable();
-		if(is_callable($callable)){
-			return call_user_func_array($callable, $parameters);
-		} else {
-			return new \BadMethodCallException();
-		}
+		return array($this->container->resolve($this->class), $this->method);
 	}
 }
 ?>
