@@ -20,20 +20,22 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 namespace MinusFour\Router\RouteLoader;
 
 use MinusFour\Router\RouteFactory;
-use MinusFour\Router\Action;
-use MinusFour\Utils\JsonFileParser;
+use MinusFour\Router\ActionFactory;
+use MinusFour\Router\ActionInterface;
 use MinusFour\Router\RouteContainerInterface;
-use MinusFour\Router\RouteLoader\RouteLoaderInterface;
+use MinusFour\Utils\JsonFileParser;
 
 class JsonRouteLoader implements RouteLoaderInterface {
 	private $filenames;
 	private $baseDir;
 	private $routeFactory;
+	private $actionFactory;
 
-	public function __construct(array $filenames, $baseDir, RouteFactory $routeFactory = null){
+	public function __construct(array $filenames, $baseDir, RouteFactory $routeFactory = null, ActionFactoryInterface $actionFactory = null){
 		$this->filenames = $filenames;
 		$this->baseDir = $baseDir;
 		$this->routeFactory = $routeFactory == null ? new RouteFactory() : $routeFactory;
+		$this->actionFactory = $actionFactory == null ? new ActionFactory() : $actionFactory;
 	}
 
 	public function loadRoutes(RouteContainerInterface $routeContainer){
@@ -54,7 +56,7 @@ class JsonRouteLoader implements RouteLoaderInterface {
 					$routePath = $this->routeFactory->getCurrentPath();
 					//Move to new base point
 					$this->routeFactory->addToPath($path);
-					$routeLoader = new JsonRouteLoader([$newFile], dirname($fullpath), $this->routeFactory);
+					$routeLoader = new JsonRouteLoader([$newFile], dirname($fullpath), $this->routeFactory, $this->actionFactory);
 					$routeLoader->loadRoutes($routeContainer);
 					//Reset route path
 					$this->routeFactory->setPath($routePath);
@@ -68,9 +70,9 @@ class JsonRouteLoader implements RouteLoaderInterface {
 						$actions = $route['actions'];
 						foreach($actions as $method => $action){
 							if(!isset($action['fixedArgs'])){
-								$actionObj = new Action($action['class'], $action['method']);
+								$actionObj = $this->actionFactory->createAction($action['class'], $action['method']);
 							} else {
-								$actionObj = new Action($action['class'], $action['method'], $action['fixedArgs']);
+								$actionObj = $this->actionFactory->createAction($action['class'], $action['method'], $action['fixedArgs']);
 							}
 							$routeObj->setMethodAction($method, $actionObj);
 						}
